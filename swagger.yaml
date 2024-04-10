@@ -1,0 +1,93 @@
+openapi: 3.0.0
+info:
+  title: Grocery Booking API
+  description: API for managing grocery items and user orders
+  version: 1.0.0
+servers:
+  - url: http://localhost:3000
+paths:
+  /api/login:
+    post:
+      summary: Authenticate user and generate JWT token
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                  description: User's username
+                password:
+                  type: string
+                  description: User's password
+      responses:
+        '200':
+          description: Successful authentication
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+                    description: JWT token for accessing protected endpoints
+        '401':
+          description: Invalid username or password
+  /api/userinfo:
+    get:
+      summary: Get user information
+      security:
+        - ApiKeyAuth: []
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  user:
+                    type: object
+                    description: User information decoded from JWT token
+        '401':
+          description: Unauthorized, invalid token
+  /api/user/items:
+      get:
+        summary: Get user-specific grocery items
+        responses:
+          '200':
+            description: User-specific grocery items retrieved successfully
+  /api/user/order:
+      post:
+        summary: Place a new order by the user
+        responses:
+          '200':
+            description: Order placed successfully  
+  /api/admin/items:
+      post:
+        summary: Add new grocery items by admin
+        responses:
+          '200':
+            description: New grocery item added
+  /api/admin/items/{itemId}:
+      delete:
+        summary: Remove a grocery item by admin
+        parameters:
+          - in: path
+            name: itemId
+            required: true
+            schema:
+              type: string
+        responses:
+          '200':
+            description: Grocery item removed    
+security:
+  - ApiKeyAuth: []
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: Authorization
