@@ -53,36 +53,101 @@ paths:
                     description: User information decoded from JWT token
         '401':
           description: Unauthorized, invalid token
-  /api/user/items:
-      get:
-        summary: Get user-specific grocery items
-        responses:
-          '200':
-            description: User-specific grocery items retrieved successfully
-  /api/user/order:
-      post:
-        summary: Place a new order by the user
-        responses:
-          '200':
-            description: Order placed successfully  
-  /api/admin/items:
-      post:
-        summary: Add new grocery items by admin
-        responses:
-          '200':
-            description: New grocery item added
-  /api/admin/items/{itemId}:
-      delete:
-        summary: Remove a grocery item by admin
-        parameters:
-          - in: path
-            name: itemId
-            required: true
+  /api/admin/additems:
+    post:
+      summary: Add a new item to the inventory
+      description: Adds a new item to the inventory.
+      requestBody:
+        required: true
+        content:
+          application/json:
             schema:
-              type: string
-        responses:
-          '200':
-            description: Grocery item removed    
+              type: object
+              properties:
+                itemName:
+                  type: string
+                price:
+                  type: number
+                description:
+                  type: string
+                quantity:
+                  type: number
+      responses:
+        '200':
+          description: Item added successfully
+        '500':
+          description: Error adding item
+  /api/admin/getitems:
+    get:
+      summary: Get all items from the inventory
+      description: Retrieves all items from the inventory.
+      responses:
+        '200':
+          description: Successful operation
+        '500':
+          description: Error retrieving items
+  /api/admin/removeitems:
+    post:
+      summary: Remove an item from the inventory
+      description: Removes an item from the inventory.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                itemId:
+                  type: number
+      responses:
+        '200':
+          description: Item removed successfully
+        '404':
+          description: Item not found
+        '500':
+          description: Error removing item
+  /api/admin/updateitems/{itemId}:
+    put:
+      summary: Update an item in the inventory
+      description: Updates an item in the inventory.
+      parameters:
+        - in: path
+          name: itemId
+          required: true
+          description: ID of the item to update
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                itemName:
+                  type: string
+                price:
+                  type: number
+                description:
+                  type: string
+                quantity:
+                  type: number
+      responses:
+        '200':
+          description: Item updated successfully
+        '404':
+          description: Item not found
+        '500':
+          description: Error updating item
+  /api/admin/levels:
+    get:
+      summary: Get levels information
+      description: Retrieves levels information.
+      responses:
+        '200':
+          description: Successful operation
+        '500':
+          description: Error retrieving levels
 security:
   - ApiKeyAuth: []
 components:

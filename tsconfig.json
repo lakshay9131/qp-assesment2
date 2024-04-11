@@ -1,6 +1,7 @@
 // tsconfig.json
 {
     "compilerOptions": {
+      "experimentalDecorators": true,
       "target": "es6",
       "module": "commonjs",
       "outDir": "./dist",

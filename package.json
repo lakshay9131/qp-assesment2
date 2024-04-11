@@ -8,6 +8,10 @@
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
     "jsonwebtoken": "^9.0.2",
+    "mysql2": "^3.0.0",
+    "reflect-metadata": "^0.2.2",
+    "sequelize": "^6.37.2",
+    "sequelize-typescript": "^2.1.6",
     "swagger-ui-express": "^5.0.0",
     "yamljs": "^0.3.0"
   },
