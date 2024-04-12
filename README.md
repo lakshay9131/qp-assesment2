@@ -1,6 +1,14 @@
 <h1>Project Name</h1>
 Description
+
+<strong>TODO: Add unit test and Dockerise 
+Current Version is working Project having  appropriae sructure to scale and add features*.*</strong>
+I have used TDD apprach  for development, Swagger for api documentation and testing(as  there are scnearios where unit tesing fails to identify issues).
+
+
+
 This project is a web application for managing orders and inventory. It provides functionalities to create orders, add items to the inventory, and manage user accounts.
+
 <br>
 <strong>Login ,Book Items, Get Items </strong>
 <div>
