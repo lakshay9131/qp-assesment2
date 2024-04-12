@@ -44,7 +44,7 @@ const Order = sequelize.define("Order", {
         allowNull: false,
     },
     delivery: {
-        type: sequelize_1.DataTypes.FLOAT,
+        type: sequelize_1.DataTypes.STRING,
         allowNull: false,
     },
     userInfo: {
@@ -60,6 +60,11 @@ const Order = sequelize.define("Order", {
 });
 exports.Order = Order;
 const OrderDetail = sequelize.define("OrderDetail", {
+    id: {
+        type: sequelize_1.DataTypes.INTEGER,
+        autoIncrement: true,
+        primaryKey: true,
+    },
     orderId: {
         type: sequelize_1.DataTypes.INTEGER,
         allowNull: false,
@@ -103,6 +108,11 @@ const Inventory = sequelize.define('Inventory', {
         allowNull: false,
         defaultValue: 0,
     },
+    available: {
+        type: sequelize_1.DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: false
+    }
 }, {
     tableName: 'inventory', // Name of the table
 });

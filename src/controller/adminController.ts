@@ -4,7 +4,7 @@ import { Request, Response } from 'express';
 import {Inventory} from '../database/sequelize';
 
 export const getAdminData = (req: Request, res: Response) => {
-  // You can implement logic to get admin data here if needed
+  // TODO  implement logic to get admin data here if needed
   res.json({ message: 'Admin data retrieved successfully' });
 };
 
@@ -19,6 +19,7 @@ export const addItems = async (req: Request, res: Response) => {
       price,
       description,
       quantity,
+      available:true
     });
 
     res.json({ message: 'Item added successfully' });
@@ -33,7 +34,7 @@ export const updateItems = async (req: Request, res: Response) => {
     const { itemName, price, description, quantity } = req.body;
 
     // Find inventory item by itemId
-    const item = await Inventory.findByPk(itemId);
+    const item = await Inventory.findOne({ where: { id:itemId } });
 
     if (!item) {
       return res.status(404).json({ message: 'Item not found' });

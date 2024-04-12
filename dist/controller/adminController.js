@@ -12,7 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.getLevels = exports.removeItems = exports.getItems = exports.updateItems = exports.addItems = exports.getAdminData = void 0;
 const sequelize_1 = require("../database/sequelize");
 const getAdminData = (req, res) => {
-    // You can implement logic to get admin data here if needed
+    // TODO  implement logic to get admin data here if needed
     res.json({ message: 'Admin data retrieved successfully' });
 };
 exports.getAdminData = getAdminData;
@@ -26,6 +26,7 @@ const addItems = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             price,
             description,
             quantity,
+            available: true
         });
         res.json({ message: 'Item added successfully' });
     }
@@ -39,7 +40,7 @@ const updateItems = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         const { itemId } = req.params; // Assuming itemId is passed in the URL parameter
         const { itemName, price, description, quantity } = req.body;
         // Find inventory item by itemId
-        const item = yield sequelize_1.Inventory.findByPk(itemId);
+        const item = yield sequelize_1.Inventory.findOne({ where: { id: itemId } });
         if (!item) {
             return res.status(404).json({ message: 'Item not found' });
         }

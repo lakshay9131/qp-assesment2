@@ -5,6 +5,19 @@ import { getAdminData, addItems, updateItems, getItems, removeItems, getLevels }
 
 const router = express.Router();
 
+
+router.use("*",(req,res,next)=>{
+    const user=req["user"];
+    if(!user || !user["role"]||user["role"]!="ADMIN"){
+     res.status(400).send("Invalid User");
+    }
+    else{
+        next()
+    }
+    
+    })
+
+
 router.get('/', getAdminData);
 router.post('/additems', addItems);
 router.get('/getitems', getItems);

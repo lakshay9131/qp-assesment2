@@ -7,6 +7,15 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const adminController_1 = require("../controller/adminController");
 const router = express_1.default.Router();
+router.use("*", (req, res, next) => {
+    const user = req["user"];
+    if (!user || !user["role"] || user["role"] != "ADMIN") {
+        res.status(400).send("Invalid User");
+    }
+    else {
+        next();
+    }
+});
 router.get('/', adminController_1.getAdminData);
 router.post('/additems', adminController_1.addItems);
 router.get('/getitems', adminController_1.getItems);

@@ -148,6 +148,108 @@ paths:
           description: Successful operation
         '500':
           description: Error retrieving levels
+  /api/user/bookitems:
+      post:
+        summary: Create new orders
+        description: |
+          Creates new orders for the specified user.
+        requestBody:
+          required: true
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  delivery:
+                    type: string
+                    description: Delivery information
+                  items:
+                    type: array
+                    description: Array of items in the order
+                    items:
+                      type: object
+                      properties:
+                        itemId:
+                          type: integer
+                          description: ID of the item
+                        quantity:
+                          type: integer
+                          description: Quantity of the item
+                        totalPrice:
+                          type: number
+                          description: Total price of the item
+                  subtotal:
+                    type: number
+                    description: Subtotal of the order
+                required:
+                  - delivery
+                  - items
+                  - subtotal
+        responses:
+          '200':
+            description: Orders created successfully
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    message:
+                      type: string
+                      description: Success message
+                    order:
+                      type: object
+                      description: Created order
+                      properties:
+                        orderId:
+                          type: integer
+                          description: ID of the order
+                        userInfo:
+                          type: integer
+                          description: ID of the user associated with the order
+                        delivery:
+                          type: string
+                          description: Delivery information
+                        items:
+                          type: array
+                          description: Array of items in the order
+                          items:
+                            type: object
+                            properties:
+                              itemId:
+                                type: integer
+                                description: ID of the item
+                              quantity:
+                                type: integer
+                                description: Quantity of the item
+                              totalPrice:
+                                type: number
+                                description: Total price of the item
+                        subtotal:
+                          type: number
+                          description: Subtotal of the order
+          '500':
+            description: Failed to create orders
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    message:
+                      type: string
+                      description: Error message
+                    error:
+                      type: string
+                      description: Error details
+  /api/user/getitems:
+    get:
+      summary: Get all items from the inventory
+      description: Retrieves all items from the inventory.
+      responses:
+        '200':
+          description: Successful operation
+        '500':
+          description: Error retrieving items
+  
 security:
   - ApiKeyAuth: []
 components:
