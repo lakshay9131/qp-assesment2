@@ -13,8 +13,6 @@ const body_parser_1 = __importDefault(require("body-parser"));
 const login_1 = __importDefault(require("./routes/login"));
 // import bookModel from './database/book.model';
 const dotenv_1 = __importDefault(require("dotenv"));
-const sequelize_1 = require("./database/sequelize");
-const utility_1 = require("./utility/utility");
 dotenv_1.default.config();
 const app = (0, express_1.default)();
 const port = 3000;
@@ -26,39 +24,23 @@ app.use('/api-docs', swagger_ui_express_1.default.serve, swagger_ui_express_1.de
 // Use body-parser middleware
 app.use(body_parser_1.default.json());
 app.use(body_parser_1.default.urlencoded({ extended: true }));
-// Routes
+// Routes With-Out Authorisation
 app.use('/api/login', login_1.default);
-// try {
-//   // Add models to Sequelize instance
-// //   let models = [ User, Inventory, Order, OrderDetail ]
-// // models.forEach(model => model.initialize(sequelize))
-// // sequelize.addModels([User, Inventory, Order, OrderDetail]);
-// // Synchronize models with database
-// sequelize.sync({ alter: true }) // Use { force: true } to drop existing tables and re-create them
-//   .then(() => {
-//     console.log('Database synchronized successfully');
-//   })
-//   .catch((error) => {
-//     console.error('Error synchronizing database:', error);
-//   });
-// } 
-// catch (error) {
-//     console.error('Unable to connect to the database:', error);
-//   }
 //middleware
 app.use("*", (req, res, next) => {
-    const token = req.headers.authorization;
-    console.log("toke,", token);
-    if (token) {
-        // Decode token
-        const decoded = (0, utility_1.decodeToken)(token);
-        if (!decoded) {
-            return res.status(401).json({ error: 'Invalid token' });
-        }
-        //saving user info in each request
-        req["user"] = decoded;
-    }
-    console.log("middleware ", token, req["user"]);
+    // Authorisation Check
+    // const token = req.headers.authorization;
+    //   console.log("toke,", token)
+    // if (token) {    
+    //     // Decode token
+    //     const decoded = decodeToken(token);
+    //     if (!decoded) {
+    //         return res.status(401).json({ error: 'Invalid token' });
+    //     }      
+    //     //saving user info in each request
+    //     req["user"]=decoded;
+    // }
+    // console.log("middleware ",token,req["user"])
     next();
 });
 app.get("/api/userinfo", (req, res) => {
@@ -68,8 +50,7 @@ app.get("/api/userinfo", (req, res) => {
 app.use('/api/user', userRouter_1.default);
 app.use('/api/admin', adminRouter_1.default);
 app.get('/', (req, res) => {
-    const j = sequelize_1.User.getTableName();
-    res.send('Hello World2!' + j);
+    res.send('Hello World2!');
 });
 app.listen(port, () => {
     // Add models to Sequelize instance

@@ -10,7 +10,6 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.bookitems = exports.getItems = exports.getUserData = void 0;
-const sequelize_1 = require("../database/sequelize");
 const getUserData = (req, res) => {
     // Logic to get user data
     res.json({ message: 'User data retrieved successfully' });
@@ -19,7 +18,7 @@ exports.getUserData = getUserData;
 const getItems = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         // Retrieve all inventory items
-        const items = yield sequelize_1.Inventory.findAll();
+        const items = [];
         res.json({ items });
     }
     catch (error) {
@@ -40,7 +39,7 @@ const bookitems = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         }
         // Array to store the created orders
         const createdOrders = [];
-        const order = yield sequelize_1.Order.create({
+        const order = yield Order.create({
             delivery,
             userInfo: userId, subtotal, items: JSON.stringify(items)
         });
@@ -49,7 +48,7 @@ const bookitems = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             // Destructure item properties
             const { itemId, quantity, totalPrice } = item;
             // Create a new order in the database
-            const insertitem = yield sequelize_1.OrderDetail.create({
+            const insertitem = yield OrderDetail.create({
                 orderId: order["id"],
                 itemId, quantity, totalPrice
             });
@@ -74,9 +73,9 @@ const validateItem = (item) => __awaiter(void 0, void 0, void 0, function* () {
         return false;
     }
     // Check if the item exists in the inventory 
-    const inventoryItem = yield sequelize_1.Inventory.findOne({ where: { id: item.itemId } });
+    const inventoryItem = [];
     // Check if quantity availbe , and item is in stock 
-    const instock = inventoryItem.getDataValue("available") && inventoryItem.getDataValue("quantity") >= item.quantity;
+    const instock = [];
     if (!inventoryItem || !instock) {
         return false;
     }
